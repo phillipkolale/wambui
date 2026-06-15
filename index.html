@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishing Wambui an Awesome Week</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* A beautiful, warm tone of deep red/burgundy gradient */
+            background: linear-gradient(135deg, #800020, #a31d1d, #4a000b);
+            overflow-y: auto;
+            overflow-x: hidden;
+            perspective: 1000px;
+            padding: 40px 20px;
+        }
+
+        /* 3D Scene Container */
+        .scene {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            margin: auto;
+        }
+
+        /* 3D Card */
+        .card {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            color: #ffffff;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            cursor: pointer;
+        }
+
+        /* --- PURE CSS 3D TEDDY BEAR --- */
+        .teddy-container {
+            width: 100px;
+            height: 110px;
+            margin: 0 auto 20px auto;
+            position: relative;
+            transform: translateZ(70px); /* Gives it the highest 3D pop-out layer */
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.35));
+        }
+
+        .teddy-head {
+            width: 70px;
+            height: 65px;
+            background: #b57c4c;
+            border-radius: 50%;
+            position: absolute;
+            top: 25px;
+            left: 15px;
+        }
+
+        .teddy-ear {
+            width: 25px;
+            height: 25px;
+            background: #b57c4c;
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+        }
+        .teddy-ear.left { left: 12px; }
+        .teddy-ear.right { right: 12px; }
+
+        .teddy-ear::after {
+            content: '';
+            width: 13px;
+            height: 13px;
+            background: #db9d62;
+            border-radius: 50%;
+            position: absolute;
+            top: 6px;
+            left: 6px;
+        }
+
+        .teddy-eye {
+            width: 8px;
+            height: 8px;
+            background: #2b1d11;
+            border-radius: 50%;
+            position: absolute;
+            top: 25px;
+        }
+        .teddy-eye.left { left: 20px; }
+        .teddy-eye.right { right: 20px; }
+
+        .teddy-muzzle {
+            width: 32px;
+            height: 26px;
+            background: #db9d62;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 8px;
+            left: 19px;
+        }
+
+        .teddy-nose {
+            width: 12px;
+            height: 8px;
+            background: #2b1d11;
+            border-radius: 50% 50% 40% 40%;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+        }
+
+        .teddy-blush {
+            width: 10px;
+            height: 6px;
+            background: rgba(240, 128, 128, 0.6);
+            border-radius: 50%;
+            position: absolute;
+            top: 32px;
+        }
+        .teddy-blush.left { left: 10px; }
+        .teddy-blush.right { right: 10px; }
+
+        /* Card Content 3D Pop-out effect */
+        .card h1 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: #fff;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateZ(50px);
+            letter-spacing: 1px;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #fcfcfc;
+            transform: translateZ(35px);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.25);
+            margin-bottom: 20px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .card p.last-para {
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .card .decor {
+            font-size: 2rem;
+            margin-top: 25px;
+            display: inline-block;
+            transform: translateZ(45px);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateZ(45px) translateY(0); }
+            50% { transform: translateZ(45px) translateY(-10px); }
+        }
+
+        /* Falling Feathers Container */
+        #feather-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Feather Styling */
+        .feather {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 75%);
+            border-radius: 50% 0 50% 50%;
+            transform-origin: center;
+            pointer-events: none;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 15px;
+            }
+            .card {
+                padding: 35px 20px;
+            }
+            .card h1 {
+                font-size: 2.1rem;
+            }
+            .card p {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+            .teddy-container {
+                width: 90px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas/Container for Falling Feathers -->
+    <div id="feather-container"></div>
+
+    <!-- Main 3D Card Content -->
+    <div class="scene">
+        <div class="card" id="tilt-card">
+            
+            <!-- Teddy Bear Graphic -->
+            <div class="teddy-container">
+                <div class="teddy-ear left"></div>
+                <div class="teddy-ear right"></div>
+                <div class="teddy-head">
+                    <div class="teddy-eye left"></div>
+                    <div class="teddy-eye right"></div>
+                    <div class="teddy-blush left"></div>
+                    <div class="teddy-blush right"></div>
+                    <div class="teddy-muzzle">
+                        <div class="teddy-nose"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h1>Hello Wambui!</h1>
+            
+            <p>Wishing you an absolutely awesome, productive, and joyful week ahead. May God's abundant blessings, perfect peace, and divine favor follow you in everything you touch. Walk into these next few days with complete confidence, knowing that your path is beautifully illuminated and you are deeply favored.</p>
+            
+            <p>It is impossible not to recognize how truly magnificent you are, Wambui. You possess a rare and exquisite beauty that transcends the ordinary—a seamless blend of external grace and a captivating, luminous spirit. Your elegance is breathtaking, yet it is the warmth of your heart and the brilliance of your mind that truly make you a masterpiece. You radiate a splendid charm that effortlessly brightens every room you step into.</p>
+            
+            <p class="last-para">May this week honor the incredible person you are. May doors of endless opportunities swing open for you, and may you be continuously surrounded by joy, laughter, and divine protection. Have a wonderful and blessed week!</p>
+            
+            <div class="decor">✨</div>
+        </div>
+    </div>
+
+    <script>
+        /* --- 1. 3D TILT EFFECT FOR THE CARD --- */
+        const card = document.getElementById('tilt-card');
+        const scene = document.querySelector('.scene');
+
+        // Desktop Mouse Move 3D Effect
+        scene.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - (rect.width / 2);
+            const y = e.clientY - rect.top - (rect.height / 2);
+            
+            // Calculate rotation angles based on mouse position
+            const rX = -(y / rect.height) * 25; 
+            const rY = (x / rect.width) * 25;
+            
+            card.style.transform = `rotateX(${rX}deg) rotateY(${rY}deg)`;
+        });
+
+        // Reset Card Position when mouse leaves
+        scene.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+
+        // Mobile Device Orientation/Gyroscope 3D Effect
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                if(e.beta && e.gamma) {
+                    const tiltX = Math.min(Math.max(e.beta, 40), 80) - 60; 
+                    const tiltY = Math.min(Math.max(e.gamma, -20), 20);
+                    
+                    card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                }
+            });
+        }
+
+
+        /* --- 2. FALLING FEATHERS ANIMATION --- */
+        const container = document.getElementById('feather-container');
+        const maxFeathers = 35; 
+
+        function createFeather() {
+            const feather = document.createElement('div');
+            feather.classList.add('feather');
+
+            const size = Math.random() * 20 + 12; 
+            feather.style.width = `${size}px`;
+            feather.style.height = `${size * 2}px`; 
+
+            feather.style.left = `${Math.random() * 100}vw`;
+            feather.style.top = `-40px`;
+            feather.style.opacity = Math.random() * 0.4 + 0.3;
+
+            container.appendChild(feather);
+
+            let posX = parseFloat(feather.style.left);
+            let posY = -40;
+            let angle = Math.random() * 360;
+            const speedY = Math.random() * 0.8 + 0.4; 
+            const speedX = Math.random() * 0.4 - 0.2; 
+            const spinSpeed = Math.random() * 1.5 - 0.75; 
+
+            function update() {
+                posY += speedY;
+                posX += Math.sin(posY / 40) * 0.4 + speedX; 
+                angle += spinSpeed;
+
+                feather.style.top = `${posY}px`;
+                feather.style.left = `${posX}vw`;
+                feather.style.transform = `rotate(${angle}deg) rotateY(${angle}deg)`; 
+
+                if (posY < window.innerHeight) {
+                    requestAnimationFrame(update);
+                } else {
+                    feather.remove();
+                    createFeather();
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        for (let i = 0; i < maxFeathers; i++) {
+            setTimeout(createFeather, Math.random() * 6000);
+        }
+    </script>
+</body>
+</html>
